@@ -9,6 +9,5 @@ module HamlCustomTags
 end
 
 if defined? ActiveSupport
-  # Set up Haml to use HamlCustomTags for Rails
-  Haml::Template.options[:compiler_class] = HamlCustomTags::Compiler
+  require 'haml_custom_tags/rails'
 end

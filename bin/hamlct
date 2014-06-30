@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# The command line Haml parser.
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+require 'haml_custom_tags'
+require 'haml/exec'
+
+opts = Haml::Exec::Haml.new(ARGV)
+opts.instance_eval do
+  @options[:for_engine][:compiler_class] = HamlCustomTags::Compiler
+end
+opts.parse!
