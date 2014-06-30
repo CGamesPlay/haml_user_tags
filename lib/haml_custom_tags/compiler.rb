@@ -2,13 +2,13 @@ module HamlCustomTags
   class Compiler < Haml::Compiler
     def compile(node)
       if node.type == :tag and node.value[:name] =~ HamlCustomTags::TAG_NAME_REGEX
-        puts node.inspect
         node = convert_custom_tag_to_script node
-        puts node.inspect
       end
       super node
     end
 
+    # Same as Haml::Buffer.attributes, but returns the hash instead of writing
+    # the attributes to the buffer.
     def self.attributes_hash(class_id, obj_ref, *attributes_hashes)
       attributes = class_id
       attributes_hashes.each do |old|
@@ -25,23 +25,36 @@ module HamlCustomTags
       attributes_hashes = t[:attributes_hashes]
       object_ref = t[:object_ref]
 
-      if attributes_hashes.empty?
-        attributes_hashes = ''
-      elsif attributes_hashes.size == 1
-        attributes_hashes = ", #{attributes_hashes.first}"
+      if object_ref == "nil" and attributes.length == 0 and attributes_hashes.empty?
+        attributes = "{}"
       else
-        attributes_hashes = ", #{attributes_hashes.join(", ")}"
+        if attributes_hashes.empty?
+          attributes_hashes = ''
+        elsif attributes_hashes.size == 1
+          attributes_hashes = ", #{attributes_hashes.first}"
+        else
+          attributes_hashes = ", #{attributes_hashes.join(", ")}"
+        end
+        attributes = "HamlCustomTags::Compiler.attributes_hash(#{inspect_obj(t[:attributes])}, #{object_ref}#{attributes_hashes})"
       end
 
-      attributes = "HamlCustomTags::Compiler.attributes_hash(#{inspect_obj(t[:attributes])}, #{object_ref}#{attributes_hashes})"
+      if node.children.length > 0
+        contents = " do"
+      elsif t[:value] and t[:parse]
+        contents = " { #{t[:value]} }"
+      elsif t[:value] and not t[:parse]
+        contents = " { #{inspect_obj t[:value]} }"
+      end
 
-      code = "#{t[:name]}(#{attributes})#{node.children.length > 0 ? " do" : ""}"
-      script_value = {
+      code = "#{t[:name]}(#{attributes})#{contents}"
+      script_value = t.clone.update({
         :text => code,
         :escape_html => false,
         :preserve => false,
         :keyword => nil,
-      }
+        :value => nil,
+        :parse => nil,
+      })
       Haml::Parser::ParseNode.new(:script, node.line, script_value, node.parent, node.children)
     end
   end
