@@ -65,7 +65,6 @@ end
 
 ## TODO
 
-- Add support for namespaces
 - Verify it works on Ruby 1.9.7 / Rails 3.2.9
 - Find best use cases inside SI code and bring in
 - Changing haml file after import_tags doesn't cause rails to reload haml file
