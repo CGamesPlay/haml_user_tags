@@ -1,3 +1,5 @@
+require 'delegate'
+
 module HamlCustomTags
   module Helpers
     # Same as Haml::Buffer.attributes, but returns the hash instead of writing
@@ -18,11 +20,12 @@ module HamlCustomTags
 
       func = proc do |attributes, &contents|
         @haml_buffer ||= Haml::Buffer.new(nil, Haml::Options.defaults)
-        contents = capture_haml(&contents) if contents
         tag.binding.eval("proc { |v| _hamlout = v }").call @haml_buffer
-        capture_haml do
-          instance_exec attributes, contents, &tag
-        end
+        # Use a proxy String class that will only evaluate its contents once
+        # it is referenced. This make the behavior similar to how "yield"
+        # would be in a ruby helper.
+        content_getter = LazyContents.new { capture_haml &contents } if contents
+        capture_haml { instance_exec attributes, content_getter, &tag }
       end
 
       define_singleton_method name, &func
@@ -35,6 +38,19 @@ module HamlCustomTags
       source = File.read path
       HamlCustomTags::Engine.new(source).extend_object self
       nil
+    end
+  end
+
+  class LazyContents < DelegateClass(String)
+    def initialize(&generator)
+      @generator = generator
+    end
+
+    def __getobj__
+      unless @results
+        @results, @generator = @generator.call, nil
+      end
+      @results
     end
   end
 end

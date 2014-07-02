@@ -25,18 +25,33 @@ EOF
       template = <<EOF
 - define_tag :MyTag do |attributes|
   %p{attributes} content
-%MyTag.a
+%MyTag.a{ :foo => :bar }
 EOF
-      expect(render template).to be == "<p class='a'>content</p>\n"
+      expect(render template).to be == "<p class='a' foo='bar'>content</p>\n"
     end
 
-    it "can yield to content" do
+    it "provides content" do
       template = <<EOF
 - define_tag :MyTag do |attributes, content|
   %p= content
-%MyTag content
+%MyTag inline
+%MyTag
+  child
 EOF
-      expect(render template).to be == "<p>content</p>\n"
+      expect(render template).to be == "<p>inline</p>\n<p>child</p>\n"
+    end
+
+    it "evaluates content on-demand" do
+      template = <<EOF
+- define_tag :Catch do |attributes, content|
+  - begin
+    =content
+  - rescue
+    Caught
+%Catch
+  - raise "Raised"
+EOF
+      expect(render template).to be == "Caught\n"
     end
   end
 
