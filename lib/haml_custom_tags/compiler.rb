@@ -7,17 +7,6 @@ module HamlCustomTags
       super node
     end
 
-    # Same as Haml::Buffer.attributes, but returns the hash instead of writing
-    # the attributes to the buffer.
-    def self.attributes_hash(class_id, obj_ref, *attributes_hashes)
-      attributes = class_id
-      attributes_hashes.each do |old|
-        Haml::Buffer.merge_attrs(attributes, Hash[old.map {|k, v| [k.to_s, v]}])
-      end
-      Haml::Buffer.merge_attrs(attributes, Haml::Buffer.new.parse_object_ref(obj_ref)) if obj_ref
-      attributes
-    end
-
     private
     def convert_custom_tag_to_script(node)
       t = node.value
@@ -35,7 +24,7 @@ module HamlCustomTags
         else
           attributes_hashes = ", #{attributes_hashes.join(", ")}"
         end
-        attributes = "HamlCustomTags::Compiler.attributes_hash(#{inspect_obj(t[:attributes])}, #{object_ref}#{attributes_hashes})"
+        attributes = "HamlCustomTags::Helpers.attributes_hash(#{inspect_obj(t[:attributes])}, #{object_ref}#{attributes_hashes})"
       end
 
       if node.children.length > 0

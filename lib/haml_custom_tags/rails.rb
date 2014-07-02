@@ -13,6 +13,13 @@ module HamlCustomTags
       HamlCustomTags::Engine.new(source).extend_object self
       nil
     end
+
+    class << self
+      def attributes_hash_with_indifference *args
+        ActiveSupport::HashWithIndifferentAccess.new attributes_hash_without_indifference *args
+      end
+      alias_method_chain :attributes_hash, :indifference
+    end
   end
 end
 
