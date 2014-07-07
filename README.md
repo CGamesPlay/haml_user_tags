@@ -68,16 +68,6 @@ end
 - Verify it works on Ruby 1.9.7 / Rails 3.2.9
 - Find best use cases inside SI code and bring in
 
-Auto-reloading doesn't work in some cases. Scenario:
-
-|                | Imported changed | Helper changed | Template changed |
-|----------------|------------------|----------------|-------------------|
-| With helper    | Doesn't reload   | Reloads        | Reloads          |
-| Without helper | ???              | N/A            | Reloads          |
-
-I need to figure out what causes Rails to reload the helpers when they change,
-then hook in my imported templates into that.
-
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/haml_custom_tags/fork )

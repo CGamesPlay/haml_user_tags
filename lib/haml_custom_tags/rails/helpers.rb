@@ -5,12 +5,8 @@ module HamlCustomTags
     def import_tags path
       view_paths = ActionController::Base._view_paths
       lookup_context = ActionView::LookupContext.new(view_paths, {}, [])
-      template = nil
-      source = lookup_context.disable_cache do
-        lookup_context.find_template(path).source
-      end
-
-      HamlCustomTags::Engine.new(source).extend_object self
+      template = lookup_context.find_template(path, [], true)
+      HamlCustomTags::Engine.new(template.source).extend_object self
       nil
     end
 

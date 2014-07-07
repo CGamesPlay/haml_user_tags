@@ -9,5 +9,6 @@ module HamlCustomTags
 end
 
 if defined? ActiveSupport
-  require 'haml_custom_tags/rails'
+  require 'haml_custom_tags/rails/helpers'
+  require "haml_custom_tags/rails/reloader"
 end
