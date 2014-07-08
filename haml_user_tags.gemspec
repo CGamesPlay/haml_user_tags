@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'haml_custom_tags/version'
+require 'haml_user_tags/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "haml_custom_tags"
-  spec.version       = HamlCustomTags::VERSION
+  spec.name          = "haml_user_tags"
+  spec.version       = HamlUserTags::VERSION
   spec.authors       = ["Ryan Patterson"]
   spec.email         = ["cgamesplay@cgamesplay.com"]
   spec.summary       = %q{TODO: Write a short summary. Required.}

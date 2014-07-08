@@ -1,4 +1,4 @@
-require 'haml_custom_tags'
+require 'haml_user_tags'
 require 'spec_helper'
 
 EXTERNAL_HAML_FILE = "#{File.dirname(__FILE__)}/haml/external.haml"
@@ -9,7 +9,7 @@ module HelperSpecHelper
   import_tags EXTERNAL_HAML_FILE
 end
 
-describe HamlCustomTags::Helpers do
+describe HamlUserTags::Helpers do
   describe "#define_tag" do
     it "renders a basic tag" do
       template = <<EOF

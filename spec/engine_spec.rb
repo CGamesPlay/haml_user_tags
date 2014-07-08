@@ -1,4 +1,4 @@
-require 'haml_custom_tags'
+require 'haml_user_tags'
 require 'spec_helper'
 
 module EngineSpecHelper
@@ -12,7 +12,7 @@ module EngineSpecHelper
   end
 end
 
-describe HamlCustomTags::Engine do
+describe HamlUserTags::Engine do
   it "compiles basic custom tags" do
     template = "- extend EngineSpecHelper\n%CustomTag\n"
     expect(render template).to be == "{CustomTag}{/CustomTag}\n"

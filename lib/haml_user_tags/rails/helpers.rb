@@ -1,4 +1,4 @@
-module HamlCustomTags
+module HamlUserTags
   module Helpers
     alias_method :import_tags_without_rails, :import_tags
     # Override the base import_tags to take advantage of Rails' template
@@ -7,7 +7,7 @@ module HamlCustomTags
       view_paths = ActionController::Base._view_paths
       lookup_context = ActionView::LookupContext.new(view_paths, {}, [])
       template = lookup_context.find_template(path, [], true)
-      HamlCustomTags::Engine.new(template.source).extend_object self
+      HamlUserTags::Engine.new(template.source).extend_object self
       nil
     end
 

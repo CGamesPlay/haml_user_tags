@@ -1,7 +1,7 @@
-module HamlCustomTags
+module HamlUserTags
   class Compiler < Haml::Compiler
     def compile(node)
-      if node.type == :tag and node.value[:name] =~ HamlCustomTags::TAG_NAME_REGEX
+      if node.type == :tag and node.value[:name] =~ HamlUserTags::TAG_NAME_REGEX
         node = convert_custom_tag_to_script node
       end
       super node
@@ -24,7 +24,7 @@ module HamlCustomTags
         else
           attributes_hashes = ", #{attributes_hashes.join(", ")}"
         end
-        attributes = "HamlCustomTags::Helpers.attributes_hash(#{inspect_obj(t[:attributes])}, #{object_ref}#{attributes_hashes})"
+        attributes = "HamlUserTags::Helpers.attributes_hash(#{inspect_obj(t[:attributes])}, #{object_ref}#{attributes_hashes})"
       end
 
       if node.children.length > 0

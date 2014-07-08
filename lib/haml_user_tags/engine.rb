@@ -1,7 +1,7 @@
-module HamlCustomTags
+module HamlUserTags
   class Engine < Haml::Engine
     def initialize(template, options = {})
-      options = options.clone.update(:compiler_class => HamlCustomTags::Compiler)
+      options = options.clone.update(:compiler_class => HamlUserTags::Compiler)
       super template, options
     end
 

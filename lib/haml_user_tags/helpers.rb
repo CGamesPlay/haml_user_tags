@@ -1,6 +1,6 @@
 require 'delegate'
 
-module HamlCustomTags
+module HamlUserTags
   module Helpers
     # Same as Haml::Buffer.attributes, but returns the hash instead of writing
     # the attributes to the buffer.
@@ -14,8 +14,8 @@ module HamlCustomTags
     end
 
     def define_tag name, &tag
-      unless name =~ HamlCustomTags::TAG_NAME_REGEX
-        raise "define_tag: #{name.inspect} is not a valid custom tag name. It must match #{HamlCustomTags::TAG_NAME_REGEX}"
+      unless name =~ HamlUserTags::TAG_NAME_REGEX
+        raise "define_tag: #{name.inspect} is not a valid custom tag name. It must match #{HamlUserTags::TAG_NAME_REGEX}"
       end
 
       func = proc do |attributes, &contents|
@@ -36,7 +36,7 @@ module HamlCustomTags
 
     def import_tags path
       source = File.read path
-      HamlCustomTags::Engine.new(source).extend_object self
+      HamlUserTags::Engine.new(source).extend_object self
       nil
     end
   end
@@ -57,6 +57,6 @@ end
 
 module Haml
   module Helpers
-    include HamlCustomTags::Helpers
+    include HamlUserTags::Helpers
   end
 end

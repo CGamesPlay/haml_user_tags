@@ -1,6 +1,6 @@
-module HamlCustomTags
+module HamlUserTags
   class Reloader < Rails::Railtie
-    initializer "haml_custom_tags.enable_reloading" do
+    initializer "haml_user_tags.enable_reloading" do
       watcher = ActiveSupport::FileUpdateChecker.new([], "#{Rails.root}/app/views/helpers" => %w{haml}) {}
       Rails.application.reloaders << watcher
       ActionDispatch::Reloader.to_prepare do
