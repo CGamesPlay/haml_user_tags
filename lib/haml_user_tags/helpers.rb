@@ -18,7 +18,7 @@ module HamlUserTags
         raise "define_tag: #{name.inspect} is not a valid custom tag name. It must match #{HamlUserTags::TAG_NAME_REGEX}"
       end
 
-      func = proc do |attributes, &contents|
+      func = proc do |attributes = {}, &contents|
         @haml_buffer ||= Haml::Buffer.new(nil, Haml::Options.defaults)
         tag.binding.eval("proc { |v| _hamlout = v }").call @haml_buffer
         # Use a proxy String class that will only evaluate its contents once
