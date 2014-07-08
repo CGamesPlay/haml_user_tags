@@ -11,4 +11,7 @@ end
 if defined? ActiveSupport
   require 'haml_custom_tags/rails/helpers'
   require "haml_custom_tags/rails/reloader"
+
+  # Set up Haml to use HamlCustomTags by default
+  Haml::Template.options[:compiler_class] = HamlCustomTags::Compiler
 end

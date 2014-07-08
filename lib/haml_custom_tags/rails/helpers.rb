@@ -1,5 +1,6 @@
 module HamlCustomTags
   module Helpers
+    alias_method :import_tags_without_rails, :import_tags
     # Override the base import_tags to take advantage of Rails' template
     # location features
     def import_tags path
@@ -18,6 +19,3 @@ module HamlCustomTags
     end
   end
 end
-
-# Set up Haml to use HamlCustomTags for Rails
-Haml::Template.options[:compiler_class] = HamlCustomTags::Compiler
