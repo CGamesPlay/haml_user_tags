@@ -15,7 +15,7 @@ module HamlUserTags
 
     def define_tag name, &tag
       unless name =~ HamlUserTags::TAG_NAME_REGEX
-        raise "define_tag: #{name.inspect} is not a valid custom tag name. It must match #{HamlUserTags::TAG_NAME_REGEX}"
+        raise "define_tag: #{name.inspect} is not a valid user tag name. It must match #{HamlUserTags::TAG_NAME_REGEX}"
       end
 
       func = proc do |attributes = {}, &contents|

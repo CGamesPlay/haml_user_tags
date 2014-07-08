@@ -5,7 +5,7 @@ module HamlUserTags
       super template, options
     end
 
-    # Defines a method for each custom tag in the template that renders the tag
+    # Defines a method for each user tag in the template that renders the tag
     # and returns the result as a string.
     def extend_object obj
       mod = Module.new

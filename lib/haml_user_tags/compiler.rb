@@ -2,13 +2,13 @@ module HamlUserTags
   class Compiler < Haml::Compiler
     def compile(node)
       if node.type == :tag and node.value[:name] =~ HamlUserTags::TAG_NAME_REGEX
-        node = convert_custom_tag_to_script node
+        node = convert_user_tag_to_script node
       end
       super node
     end
 
     private
-    def convert_custom_tag_to_script(node)
+    def convert_user_tag_to_script(node)
       t = node.value
       attributes = t[:attributes]
       attributes_hashes = t[:attributes_hashes]

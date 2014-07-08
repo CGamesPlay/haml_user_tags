@@ -1,10 +1,12 @@
 # HamlUserTags
 
-Goals:
+Define reusable functions in Haml that can be called with native Haml syntax.
 
-- Define custom tags from Rails helpers
-- Define custom tags directly in Haml files
-- Import custom tags from other Haml files
+## Features
+
+- Native Haml syntax for calling helper functions
+- Ability to define helper functions using Haml
+- Ability to import user tags from one Haml file into another
 
 ## Installation
 
@@ -40,7 +42,7 @@ augmented with a tracking URL, utm parameters, etc.
 
 ### Pooled JS script tags at end of body
 
-This technique will allow you to write custom tags with JavaScript bindings and
+This technique will allow you to write user tags with JavaScript bindings and
 have the JavaScript automatically consolidated in one script tag at the end of
 the document. If you give the JS element an ID, the JS will only be included
 once (for example, if you simply need to initialize a jQuery plugin).

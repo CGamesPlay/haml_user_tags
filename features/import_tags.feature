@@ -42,7 +42,7 @@ Feature: Import tags into Haml templates
       <p>Remote tag</p>
       """
 
-  Scenario: Calling custom tags from outside Haml
+  Scenario: Calling user tags from outside Haml
     Given a helper module that contains:
       """ruby
       extend HamlUserTags::Helpers

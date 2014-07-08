@@ -8,8 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = HamlUserTags::VERSION
   spec.authors       = ["Ryan Patterson"]
   spec.email         = ["cgamesplay@cgamesplay.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Define reusable functions in Haml that can be called with native Haml syntax.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
