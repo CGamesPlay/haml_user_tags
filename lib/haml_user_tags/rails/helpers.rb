@@ -1,9 +1,9 @@
 module HamlUserTags
   module Helpers
-    alias_method :import_tags_without_rails, :import_tags
-    # Override the base import_tags to take advantage of Rails' template
+    alias_method :include_tags_without_rails, :include_tags
+    # Override the base include_tags to take advantage of Rails' template
     # location features
-    def import_tags path
+    def include_tags path
       view_paths = ActionController::Base._view_paths
       lookup_context = ActionView::LookupContext.new(view_paths, {}, [])
       template = lookup_context.find_template(path, [], true)

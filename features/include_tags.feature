@@ -1,4 +1,4 @@
-Feature: Import tags into Haml templates
+Feature: Include tags in Haml templates
   Once you have created a template that defines some tags in Haml, those tags can be imported into other templates and reused.
 
   Background:
@@ -13,7 +13,7 @@ Feature: Import tags into Haml templates
   Scenario: Importing directly into a template
     Given a file named "template.haml" that contains:
       """haml
-      - import_tags "helper.haml"
+      - include_tags "helper.haml"
       %RemoteTag
       %RemoteTag
       """
@@ -28,7 +28,7 @@ Feature: Import tags into Haml templates
     Given a helper module that contains:
       """ruby
       extend HamlUserTags::Helpers
-      import_tags "helper.haml"
+      include_tags "helper.haml"
       """
     And a file named "template.haml" that contains:
       """haml
@@ -46,7 +46,7 @@ Feature: Import tags into Haml templates
     Given a helper module that contains:
       """ruby
       extend HamlUserTags::Helpers
-      import_tags "helper.haml"
+      include_tags "helper.haml"
       """
     When I evaluate the ruby code:
       """ruby
@@ -68,7 +68,7 @@ Feature: Import tags into Haml templates
       """
     And a file named "template.haml" that contains:
       """haml
-      - import_tags "helper.haml"
+      - include_tags "helper.haml"
       %DebugSelf{ "target" => self }
       """
     When I render the template "template.haml"

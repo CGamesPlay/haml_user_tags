@@ -34,7 +34,7 @@ module HamlUserTags
       end
     end
 
-    def import_tags path
+    def include_tags path
       source = File.read path
       HamlUserTags::Engine.new(source).extend_object self
       nil

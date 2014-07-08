@@ -6,7 +6,7 @@ Define reusable functions in Haml that can be called with native Haml syntax.
 
 - Native Haml syntax for calling helper functions
 - Ability to define helper functions using Haml
-- Ability to import user tags from one Haml file into another
+- Ability to include user tags from one Haml file in another
 
 ## Installation
 
@@ -69,6 +69,10 @@ end
 
 - Verify it works on Ruby 1.9.7 / Rails 3.2.9
 - Find best use cases inside SI code and bring in
+- Create a wrapper around render :partial to set it as a custom tag.
+
+It should ensure that tags in the partial don't get included. Potentially use
+Haml::to_method or whatever to do the defining.
 
 ## Contributing
 
