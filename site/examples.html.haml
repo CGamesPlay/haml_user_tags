@@ -1,0 +1,108 @@
+- @page_title = "Examples"
+%ArticleWithContents
+  %SectionMarker#tutorial Examples
+  %h1 Examples
+  %p
+    This page will explore some of the options made available by Haml User Tags.
+
+  %SectionMarker#rails Rails helpers
+  %h2 Porting the Rails helpers
+  %p
+    Rails defines many helper functions and it makes sense to create user tags wrapping them. When wrapping Ruby helper methods, it is simpler to implement them in Ruby.
+  %Code.ruby
+    :preserve
+      # Use this like:
+      # %LinkTo{href: {controller: "main", action: "index"}} Link text
+      def LinkTo(attributes = {})
+        url_options = attributes.delete("href")
+        link_to url_options, attributes { yield }
+      end
+
+  %SectionMarker#migrate-partials Migrating from partials
+  %h2 Migrating from partials
+  %p
+    It's easy to define a helper that will aid transition from partials to user tags.
+  %Code.ruby
+    :preserve
+      module MyPartialHelper
+        def self.include_as_tag(name, path)
+          include_tags path
+          define_method name do |attributes = {}, &content|
+            attributes["content"] = capture_haml { content.call } if content
+            render partial: path, locals: attributes
+          end
+        end
+
+        include_as_tag :SomePartial, "partials/some_partial"
+      end
+  %Code.haml
+    :preserve
+      -# Before:
+      = render partial: "partials/some_partial", locals: {class: "classes", foo: "bar"}
+      -# After:
+      %SomePartial.classes{foo: "bar"}
+  %Alert.alert-danger{closable: false}
+    %p
+      <strong>Warning:</strong> If the partial defined any user tags, they would be imported into the calling context, but <em>only after the tag was first rendered</em>. This is almost certainly not what would be expected, so the example includes a call to <code>include_tags&nbsp;path</code> to immediately import the tags.
+
+  %SectionMarker#pooled-js Pooled JavaScript
+  %h2 Pool inline JavaScript at the end of body
+  %p
+    This technique will allows user tags with JavaScript bindings to be created where the JavaScript is automatically consolidated in one script tag at the end of the document. If the JS element has an ID, then it will only be included once (for example, if it simply initializes a jQuery plugin).
+  - pooled_context = Object.new
+  %LiveExample.ruby{context: pooled_context, showoutput: false}
+    :preserve
+      @included_scripts = {}
+      @inline_js = []
+
+      def JS(attributes = {})
+        if id = attributes["id"]
+          return if @included_scripts[id]
+          @included_scripts[id] = true
+        end
+        @inline_js << capture_haml { yield }
+        nil
+      end
+  %LiveExample.haml{context: pooled_context}
+    :preserve
+      - define_tag :FancyTag do |attributes, content|
+        .fancy-tag= content
+        %JS#FancyTag
+          :plain
+            document.write("Initialized FancyTag plugin");
+      %FancyTag Fancy Tag 1
+      %FancyTag Fancy Tag 2
+
+      %div End of the body, maybe in a layout:
+      %script
+        = @inline_js.join("\n")
+
+  %SectionMarker#automatic-toc Automatic Contents
+  %h2 Automatically build a table of contents
+  %p
+    By taking advantage of lazy evaluation of child content, it's possible to build up a table of contents of the contents of a page. This technique is used on this page to build the navigation at the right.
+  %LiveExample.haml
+    :preserve
+      - define_tag :PageWithChapters do |attributes, content|
+        - @chapters = []
+        -# Note that the content needs to be accessed to be evaluated, i.e.
+        -# simply copying the reference to a new variable will not work.
+        - page_content = content.to_s
+        %h4 Contents
+        %ol
+          - @chapters.each do |section, title|
+            %li
+              %a{ :href => "#\#{section}" }= title
+        = page_content
+
+      - define_tag :ChapterHeading do |attributes, content|
+        - @chapters << [attributes["id"], content]
+        %h4{attributes}= content
+
+      %PageWithChapters
+        %ChapterHeading#cras-vitae Cras vitae
+        %p Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        %ChapterHeading#sed-tincidunt Sed tincidunt
+        %p Suspendisse non pharetra nibh, sed fringilla est.
+        %ChapterHeading#nullam-sed-augue Nullam sed augue
+        %p Proin placerat orci ut ipsum vehicula laoreet.

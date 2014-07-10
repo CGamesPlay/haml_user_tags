@@ -26,53 +26,20 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
-## Ideas
-
-### Augment links with tracking in emails
-
-In your email template, simply replace your links with this tag to have them
-augmented with a tracking URL, utm parameters, etc.
-
-```haml
-- define_tag :EmailLink do |attributes, content|
-  - attributes["href"] = email_tracking_link_for(attributes["href"])
-  %a{attributes}= content
-%EmailLink{ :href => url_for(foo) } Click me!
-```
-
-### Pooled JS script tags at end of body
-
-This technique will allow you to write user tags with JavaScript bindings and
-have the JavaScript automatically consolidated in one script tag at the end of
-the document. If you give the JS element an ID, the JS will only be included
-once (for example, if you simply need to initialize a jQuery plugin).
-
-```ruby
-def JS(attributes, &block)
-  if id = attributes["id"]
-    return if @included_scripts[id]
-    @included_scripts[id] = true
-  end
-  content_for(:javascript, &block)
-end
-```
-```haml
-%JS#SomeComponent
-  :plain
-    $(document).InstallSomething();
-
--# Later, in your layout somewhere
-= yield :javascript
-```
-
 ## TODO
 
 - Verify it works on Ruby 1.9.7 / Rails 3.2.9
 - Find best use cases inside SI code and bring in
+- Explain the lazy evaluation of content
+- Document how to migrate from partials
 - Create a wrapper around render :partial to set it as a custom tag.
 
 It should ensure that tags in the partial don't get included. Potentially use
 Haml::to_method or whatever to do the defining.
+
+## Motivation
+
+Guy Steele's [Growing a Language](http://www.cs.virginia.edu/~evans/cs655/readings/steele.pdf) ([Video](https://www.youtube.com/watch?v=_ahvzDzKdB0)) gives a great demonstration of why user tags in Haml are an essential feature.
 
 ## Contributing
 

@@ -1,0 +1,32 @@
+-# Modals
+- define_tag :LaunchModalButton do |attributes, content|
+  - target = attributes.delete "target"
+  %button.btn{attributes, :data => { "toggle" => "modal", "target" => target }}= content
+- define_tag :CloseModalButton do |attributes, content|
+  %button.btn.btn-default{ :type => "button", :data => { "dismiss" => "modal" } }
+    = content.length > 0 ? content : "Close"
+- define_tag :Modal do |attributes, content|
+  .modal.fade{attributes, :role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content
+        = content
+- define_tag :ModalTitle do |attributes, content|
+  .modal-header
+    %button.close{:type => "button", :data => {"dismiss" => "modal" } }
+      %span{"aria-hidden" => "true"} &times;
+      %span.sr-only Close
+    %h4.modal-title= content
+- define_tag :ModalBody do |attributes, content|
+  .modal-body{attributes}= content
+- define_tag :ModalFooter do |attributes, content|
+  .modal-footer{attributes}= content
+
+-# Alerts
+- define_tag :Alert do |attributes, content|
+  - closable = attributes.delete("closable")
+  .alert{attributes, :role => "alert"}
+    - unless closable.eql? false
+      %button.close{:type => "button", :data => { "dismiss" => "alert" }}
+        %span{"aria-hidden" => "true"} &times;
+        %span.sr-only Close
+    = content

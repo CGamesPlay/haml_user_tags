@@ -1,0 +1,34 @@
+- define_tag :Code do |attributes, content|
+  - lang = attributes["class"]
+  - code = content.gsub("&#x000A;", "\n")
+  = preserve Pygments.highlight(code, :lexer => lang, :formatter => 'html', :options => {:encoding => 'utf-8'})
+
+- define_tag :LiveExample do |attributes, content|
+  - lang = attributes["class"] || "haml"
+  - context = attributes["context"] || Object.new
+  - code = content.gsub("&#x000A;", "\n")
+  - case lang
+    - when "haml"; result = HamlUserTags::Engine.new(code).to_html(context)
+    - when "ruby"; result = context.instance_eval code
+    - else; result = "Error: #{lang.inspect}"
+  .live-example
+    %Code{ :class => lang }= code
+    - if attributes["showoutput"] != false
+      .live-result
+        = result
+
+- define_tag :ArticleWithContents do |attributes, content|
+  - @body_scrollspy = "#articleContents"
+  - @contents = []
+  .col-md-9
+    = content
+  .col-md-3
+    #articleContents.hidden-print.hidden-xs{ role: "tablist", data: { "spy" => "affix" } }
+      %ul.nav
+        - @contents.each do |section, title|
+          %li
+            %a{ :href => "##{section}" }= title
+
+- define_tag :SectionMarker do |attributes, content|
+  - @contents << [attributes["id"], content.to_s]
+  .article-section-marker{attributes}

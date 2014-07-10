@@ -1,0 +1,185 @@
+- @page_title = "Tutorial"
+%ArticleWithContents
+  %SectionMarker#tutorial Tutorial
+  %h1 Tutorial
+  %p
+    Fundamentally, Haml User Tags enables three things:
+  %ol
+    %li Calling Ruby helper functions using Haml syntax
+    %li Creating new helper functions that return Haml blocks
+    %li Including tags from one template file in another template file
+  %p
+    This tutorial will take a close look at what these things mean, and then talk about they can be used effectively.
+
+  %SectionMarker#syntax Syntax enhancements
+  %h2 Call Ruby helper functions using Haml syntax
+  %p
+    Haml User Tags adds a special syntax to the Haml compiler that insructs Haml to run a helper method instead of outputting a tag. Imagine a Ruby helper method like this:
+  - context = Object.new
+  %LiveExample.ruby{context: context, showoutput: false}
+    :preserve
+      def MyHelper(attributes = {})
+        content = capture_haml {yield} if block_given?
+        return "<samp>MyHelper called with \#{attributes.inspect} and \#{content.inspect}</samp><br />\n"
+      end
+  %p
+    The first thing to notice is that this method is named differently than most Ruby methods. Haml User Tags are required to begin with a capital letter and be CamelCased. Like a typical Ruby helper function, it receives a hash of options and accepts a block of content.
+  %p Now this helper method can be called from Haml:
+  %LiveExample.haml{context: context}
+    :preserve
+      %MyHelper
+  %p The attributes work as expected, so user tags can receive content and a hash of attributes:
+  %LiveExample.haml{context: context}
+    :preserve
+      %MyHelper{foo: "bar"} content
+  %Alert.alert-warning{closable: false}
+    %strong Caveat:
+    Notice that the attribute was passed as <code>:foo</code>, but was translated to a string <code>"foo"</code> when the helper function ran. Haml User Tags will use <a href="http://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html">HashWithIndifferentAccess</a> when running under Rails, so this is not generally be an issue.
+  %p In addition to specifying attributes as a hash, Haml also knows how to translate IDs and class names:
+  %LiveExample.haml{context: context}
+    :preserve
+      %MyHelper.cls1 with class name
+      %MyHelper#id with ID
+      %MyHelper.cls1{class: "cls2"} merging multiple classes
+
+  %SectionMarker#defining-helpers Defining helpers
+  %h2 Create new helper functions that return Haml blocks
+  %p
+    Calling helper methods from Haml is useful, but only half of what's needed to create <em>composable tags</em>. In order to create Haml tags that are composed of other Haml tags, Haml templates must be able to create these helper methods directly. To enable this, Haml User Tags provides a helper method, <code>define_tag</code>. It works like this:
+  %LiveExample.haml{context: context}
+    :preserve
+      - define_tag :MyHamlHelper do |attributes, content|
+        %samp MyHelper called with \#{attributes.inspect} and \#{content.inspect}
+        %br
+
+      %MyHamlHelper.cls helper defined in Haml directly
+  %p
+    All <code>define_tag</code> does is create a new helper method on the template object, so it works basically the same as <code>MyHelper</code>, above. User tags can do everything that normal Haml templates can do, including accessing instance variables and calling other user tags.
+
+  %SectionMarker#including-helpers Including helpers
+  %h2 Include tags from one template file in another template file
+  %p
+    Haml User Tags provides a method called <code>include_tags</code> that takes a path to a template file, and will copy the tags defined in that template into the calling one. For example, if there were a file called <code>_bootstrap.html.haml</code> and it defined a tag called <code>Alert</code>, then it could be accessed like this:
+  %LiveExample.haml{context: context}
+    :preserve
+      - include_tags "_bootstrap.html.haml"
+
+      %Alert.alert-info The Alert tag was imported!
+  %p
+    Because the user tags are helper methods that are copied into the current template, they share the same <code>self</code> object and instance variables. This is the same behavior as Rails partials.
+  %p
+    The <code>include_tags</code> method can also be called from Ruby code, which allows helper modules that are shared across a project to be created. Consider the following helper module:
+  %Code.ruby
+    :preserve
+      module BootstrapHelper
+        extend HamlUserTags::Helpers
+        include_tags "_bootstrap.html.haml"
+      end
+  %p
+    Now in all templates that extend this module, all of the custom tags defined in the imported template are available immedately. This also has a performance benefit, since the included file is only compiled once and the results are shared amongst all templates that include the module.
+
+  %SectionMarker#rails Rails-specific
+  %h2 Rails-specific features
+  %p
+    In Rails, <code>include_tags</code> does not take a filename. Instead, it searches for a partial in <code>views/helpers/</code>. For example, given the following helper module:
+  %Code.ruby
+    :preserve
+      module ApplicationHelper
+        extend HamlUserTags::Helpers
+        include_tags "application/bootstrap"
+      end
+  %p
+    Rails will expect to find the file in <code>app/views/helpers/application/_bootstrap.haml</code>.
+
+  %SectionMarker#composition Composition
+  %h2 Composition
+  %p
+    With these basic building blocks, it is now possible to create <strong>composable tags</strong>. This section of the tutorial describes techniques and conventions that will be useful while building a library of user tags in an app.
+  %p
+    To begin, here is a simple <code>LinkButton</code> tag that renders a Bootstrap-themed button to a given link.
+  %LiveExample.haml{context: context}
+    :preserve
+      - define_tag :LinkButton do |attributes, content|
+        %a.btn.btn-default{href: attributes["href"]}= content
+      %LinkButton{href: "#"} My Button
+      %LinkButton.btn-primary{href: "#"} Primary Button
+  %p
+    This user tag has some obvious limitations: a class is given to the second button, but because the method did not explicitly pass the class attribute on, it was left out of the result. Fortunately, Haml allows passing entire hash objects to tags instead of specifying each key-value pair:
+  %LiveExample.haml{context: context}
+    :preserve
+      - define_tag :LinkButton do |attributes, content|
+        %a.btn.btn-default{attributes}= content
+      %LinkButton{href: "#"} My Button
+      %LinkButton.btn-primary{href: "#"} Primary Button
+      %LinkButton{href: "#", title: "Title text"} Another Button
+  %p
+    This technique is known as <strong>attribute forwarding</strong>. Because all attributes are forwarded on to the underlying <code>&lt;a&gt;</code> element, the class even worked with the <code>title</code> attribute. In this way, the <code>LinkButton</code> can support all of the attributes of the tag it is composed of (<code>&lt;a&gt;</code>).
+  %p Consider a new type of LinkButton that opens a popover:
+  %LiveExample.haml{context: context}
+    :preserve
+      - define_tag :PopoverButton do |attributes, content|
+        - title = attributes.delete "title"
+        - label = attributes.delete "label"
+        %LinkButton.popover-button{attributes, :data => {toggle: "popover", title: title, content: content}}
+          = label || "Show Popover"
+
+      %PopoverButton.btn-primary{title: "Popover content"}
+        This content appears inside of the popover.
+  %p
+    Now <code>PopoverButton</code> supports all of the features of <code>LinkButton</code> (and thus <code>&lt;a&gt;</code>). Notice the pattern of calling <code>attributes.delete</code>, which removes the key from the hash and returns the value if it was set. This is necessary because otherwise the <code>LinkButton</code> would end up with <code>title</code> and <code>label</code> attributes, which is not intended. In this way known attributes are handled and handling of unknown attributes is deferred to the constituent tags.
+  %p Consider this new <code>LinkButton</code> tag that supports a new feature: adding an icon to the button.
+  %LiveExample.haml{context: context}
+    :preserve
+      - define_tag :LinkButton do |attributes, content|
+        - icon = attributes.delete "icon"
+        %a.btn.btn-default{attributes}
+          - if icon
+            %span.glyphicon{class: "glyphicon-\#{icon}"}
+          = content
+      %LinkButton{href: "#", icon: "star"} My Button
+      %PopoverButton{title: "An Icon", icon: "glass"}
+        This button has an icon, even though the code for
+        PopoverButton did not change.
+  %p
+    Even though PopoverButton has no knowledge of the <code>icon</code> attribute, it already supports it.
+
+  %SectionMarker#attribute-forwarding Attribute forwarding
+  %h2 Attribute forwarding
+  %p
+    <strong>Attribute forwarding</strong> is a simple and powerful way to compose HTML tags. <strong>It allows user tags to inherit behavior without inheriting implementation.</strong>
+  %p
+    This section will go over some of the subtleties of attribute forwarding. Most of this is the behavior described in <a href="http://haml.info/docs/yardoc/file.REFERENCE.html#attributes">the Haml reference</a>, but since it is such an integral part of building composable tags, it's worth reviewing the capabilities here. The Haml attribute syntax has the following traits:
+  %ul
+    %li The classes and IDs on the tag are combined to form a hash
+    %li A hash literal can be provided between brackets
+    %li More generally, any Ruby expression can be provided (the reference refers to "attribute methods")
+    %li More than one hash can be provided by comma-separating them
+    %li
+      These hashes are then intelligently combined to form the final attributes, left-to-right
+      %ul
+        %li Multiple <code>id</code> values will be concatenated with underscore (<code>_</code>)
+        %li Multiple <code>class</code> values will be concatenated with space (<code>&nbsp;</code>)
+        %li Multiple <code>data</code> values will be merged
+        %li All other attributes are merged
+  %LiveExample.haml{context: context}
+    :preserve
+      %MyHelper#id1{id: "id2"}
+      %MyHelper.class1{class: %w{class2 class3}}
+      - hash = {class: "class1", data: {foo: "bar"}}
+      %MyHelper{hash, class: "class2", data: {baz: "qux"}}
+
+  %SectionMarker#lazy-evaluation Lazy Evaluation
+  %h2 Lazy Evaluation
+  %p
+    The content of user tags is not evaluated until the <code>content</code> parameter is accessed. This allows user tags to set up context for their child content. In the following example, this technique is used to set an instance variable describing the form that is currently being built. This technique enables the creation of simple wrappers around the Rails form builders.
+  %LiveExample.haml{context: context}
+    :preserve
+      - define_tag :Form do |attributes, content|
+        - @form_for = attributes["for"]
+        %form= content
+      - define_tag :TextField do |attributes, content|
+        - field = attributes.delete "id"
+        %input{attributes, name: "\#{@form_for}[\#{field}]", placeholder: field}
+      %Form{for: :some_model}
+        %TextField#first_name
+        %TextField#last_name

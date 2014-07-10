@@ -1,0 +1,98 @@
+- @page_title = "Helpers for Haml, in Haml"
+.jumbotron.bg-primary
+  %h1 Helpers for Haml, in Haml.
+  %p.lead
+    Define helper functions in Haml that can be called with native Haml syntax
+    and shared inside your app.
+  %p.download-button
+    %a.btn.btn-primary.btn-lg{href: "download.html"} Download Haml User Tags
+    %small
+      Latest:
+      %strong
+        #{HamlUserTags::VERSION}
+%h1.text-center What is it?
+#what-it-is
+  .row
+    .col-md-6
+      %h2
+        Compose tags
+        %small from other tags
+      %p Build powerful constructs by composing simpler ones.
+      %LiveExample
+        :plain
+          - define_tag :Media do |attributes, content|
+            .media
+              %a.pull-left{href: "#"}
+                %img.media-object{src: attributes["image"]}
+              .media-body
+                %h4.media-heading= attributes["heading"]
+                = content
+
+          %Media{image: "http://placehold.it/48", heading: "Media"}
+            Nulla vel metus scelerisque ante sollicitudin commodo.
+    .col-md-6
+      %h2
+        Share tags
+        %small across your project
+      %p Create helper templates and reuse them everywhere.
+      %LiveExample
+        :plain
+          - include_tags '_bootstrap.html.haml'
+          %LaunchModalButton.btn-primary.btn-lg{target: "#introModal"}
+            Experience Haml User Tags
+          %Modal#introModal
+            %ModalTitle Welcome to the next generation of Haml
+            %ModalBody
+              %p Beautiful syntax for defining high-level components.
+            %ModalFooter
+              %CloseModalButton
+  .row
+    .col-md-12
+      %h2
+        Clean syntax
+        %small for helper methods
+      %p
+        Stop using Ruby syntax to call helper methods and start using powerful tags that feel like regular Haml.
+  .row
+    .col-md-6
+      %label Rails helpers
+      %Code.haml
+        :plain
+          = form_for @article, html: {role: "form"} do |f|
+            .form-group
+              = f.label :email
+              = f.text_field :email, {class: "form-control"}
+            .form-group
+              = f.label :password
+              = f.password_field :password, {class: "form-control"}
+            .form-group
+              = f.label :file
+              = f.file_field :file
+              %p.help-block Example block-level help text here.
+            .checkbox
+              = f.label :checkbox do
+                = f.check_box :checkbox
+                Check me out
+            = f.submit "Submit", class: "btn btn-default"
+    .col-md-6
+      %label Haml User Tags
+      %Code.haml
+        :plain
+          %Form{for: @article, role: "form"}
+            .form-group
+              %Label#email
+              %Input.form-control#email
+            .form-group
+              %Label#password
+              %Input.form-control#password{type: "password"}
+            .form-group
+              %Label#file
+              %Input#file{type: "file"}
+              %p.help-block Example block-level help text here.
+            .checkbox
+              %Label#checkbox
+                %Input#checkbox{type: "checkbox"}
+                Check me out
+            %Submit.btn.btn-default Submit
+  %h3#learn-more.text-center
+    Intrigued? <a href="tutorial.html">Learn more about Haml User Tags</a>.
