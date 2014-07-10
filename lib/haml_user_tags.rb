@@ -5,7 +5,7 @@ require "haml_user_tags/engine"
 require "haml_user_tags/helpers"
 
 module HamlUserTags
-  TAG_NAME_REGEX = /^[A-Z][a-zA-Z]+$/
+  TAG_NAME_REGEX = /^[A-Z][a-zA-Z]*$/
 end
 
 if defined? ActiveSupport

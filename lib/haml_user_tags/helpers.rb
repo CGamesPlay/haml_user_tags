@@ -24,7 +24,7 @@ module HamlUserTags
         # Use a proxy String class that will only evaluate its contents once
         # it is referenced. This make the behavior similar to how "yield"
         # would be in a ruby helper.
-        content_getter = LazyContents.new { capture_haml &contents } if contents
+        content_getter = LazyContents.new { capture_haml(&contents) || "" } if contents
         capture_haml { instance_exec attributes, content_getter, &tag }
       end
 

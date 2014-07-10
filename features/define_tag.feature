@@ -56,7 +56,6 @@ Feature: Define user tags
       </p>
       """
 
-
   Scenario: Lazy evaluation of content
     Given a file named "template.haml" that contains:
       """haml
@@ -72,4 +71,24 @@ Feature: Define user tags
     Then the output should be:
       """html
       Caught an exception!
+      """
+
+  Scenario: Pass content through multiple user tags
+    Given a file named "template.haml" that contains:
+      """haml
+      - define_tag :A do |attributes, content|
+        %p= content
+      - define_tag :B do |attributes, content|
+        %A
+          = content
+      - define_tag :C do |attributes, content|
+        %A= content
+      %B foo
+      %C bar
+      """
+    When I render the template "template.haml"
+    Then the output should be:
+      """html
+      <p>foo</p>
+      <p>bar</p>
       """

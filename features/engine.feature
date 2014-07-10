@@ -22,7 +22,7 @@ Feature: Call functions from Haml
     When I render the template "template.haml"
     Then the output should be:
       """html
-      CustomTag called with {}, ""
+      CustomTag called with {}, nil
       """
 
   Scenario: User tags with attribute
@@ -33,12 +33,13 @@ Feature: Call functions from Haml
     When I render the template "template.haml"
     Then the output should be:
       """html
-      CustomTag called with {"id"=>"id", "class"=>"c1 c2 class_name", "title"=>"Title"}, ""
+      CustomTag called with {"id"=>"id", "class"=>"c1 c2 class_name", "title"=>"Title"}, nil
       """
 
   Scenario: User tags with content
     Given a file named "template.haml" that contains:
       """haml
+      %CustomTag
       %CustomTag inline content
       %CustomTag= "Ruby content"
       %CustomTag
@@ -48,6 +49,7 @@ Feature: Call functions from Haml
     When I render the template "template.haml"
     Then the output should be:
       """html
+      CustomTag called with {}, nil
       CustomTag called with {}, "inline content"
       CustomTag called with {}, "Ruby content"
       CustomTag called with {}, "Ruby\nand normal\n"

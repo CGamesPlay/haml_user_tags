@@ -30,9 +30,9 @@ module HamlUserTags
       if node.children.length > 0
         contents = " do"
       elsif t[:value] and t[:parse]
-        contents = " { #{t[:value]} }"
+        contents = " { _hamlout.push_text(#{t[:value]}, 0, false) }"
       elsif t[:value] and not t[:parse]
-        contents = " { #{inspect_obj t[:value]} }"
+        contents = " { _hamlout.push_text(#{inspect_obj t[:value]}, 0, false) }"
       end
 
       code = "#{t[:name]}(#{attributes})#{contents}"
