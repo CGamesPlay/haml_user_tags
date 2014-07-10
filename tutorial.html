@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+    <meta content='width=device-width, initial-scale=1' name='viewport'>
+    <meta content='' name='description'>
+    <meta content='' name='author'>
+    <link href='../../favicon.ico' rel='icon'>
+    <title>Tutorial -  Haml User Tags</title>
+    <link href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='style.css' rel='stylesheet'>
+    <style type='text/css'>
+      .hll { background-color: #ffffcc }
+      .c { color: #408080; font-style: italic } /* Comment */
+      .err { border: 1px solid #FF0000 } /* Error */
+      .k { color: #008000; font-weight: bold } /* Keyword */
+      .o { color: #666666 } /* Operator */
+      .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+      .cp { color: #BC7A00 } /* Comment.Preproc */
+      .c1 { color: #408080; font-style: italic } /* Comment.Single */
+      .cs { color: #408080; font-style: italic } /* Comment.Special */
+      .gd { color: #A00000 } /* Generic.Deleted */
+      .ge { font-style: italic } /* Generic.Emph */
+      .gr { color: #FF0000 } /* Generic.Error */
+      .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+      .gi { color: #00A000 } /* Generic.Inserted */
+      .go { color: #888888 } /* Generic.Output */
+      .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+      .gs { font-weight: bold } /* Generic.Strong */
+      .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+      .gt { color: #0044DD } /* Generic.Traceback */
+      .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+      .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+      .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+      .kp { color: #008000 } /* Keyword.Pseudo */
+      .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+      .kt { color: #B00040 } /* Keyword.Type */
+      .m { color: #666666 } /* Literal.Number */
+      .s { color: #BA2121 } /* Literal.String */
+      .na { color: #7D9029 } /* Name.Attribute */
+      .nb { color: #008000 } /* Name.Builtin */
+      .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+      .no { color: #880000 } /* Name.Constant */
+      .nd { color: #AA22FF } /* Name.Decorator */
+      .ni { color: #999999; font-weight: bold } /* Name.Entity */
+      .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+      .nf { color: #0000FF } /* Name.Function */
+      .nl { color: #A0A000 } /* Name.Label */
+      .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+      .nt { color: #008000; font-weight: bold } /* Name.Tag */
+      .nv { color: #19177C } /* Name.Variable */
+      .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+      .w { color: #bbbbbb } /* Text.Whitespace */
+      .mf { color: #666666 } /* Literal.Number.Float */
+      .mh { color: #666666 } /* Literal.Number.Hex */
+      .mi { color: #666666 } /* Literal.Number.Integer */
+      .mo { color: #666666 } /* Literal.Number.Oct */
+      .sb { color: #BA2121 } /* Literal.String.Backtick */
+      .sc { color: #BA2121 } /* Literal.String.Char */
+      .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+      .s2 { color: #BA2121 } /* Literal.String.Double */
+      .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+      .sh { color: #BA2121 } /* Literal.String.Heredoc */
+      .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+      .sx { color: #008000 } /* Literal.String.Other */
+      .sr { color: #BB6688 } /* Literal.String.Regex */
+      .s1 { color: #BA2121 } /* Literal.String.Single */
+      .ss { color: #19177C } /* Literal.String.Symbol */
+      .bp { color: #008000 } /* Name.Builtin.Pseudo */
+      .vc { color: #19177C } /* Name.Variable.Class */
+      .vg { color: #19177C } /* Name.Variable.Global */
+      .vi { color: #19177C } /* Name.Variable.Instance */
+      .il { color: #666666 } /* Literal.Number.Integer.Long */
+    </style>
+  </head>
+  <body data-spy='scroll' data-target='#articleContents'>
+    <header class='navbar navbar-default navbar-fixed-top' role='navigation'>
+      <div class='container'>
+        <div class='navbar-header'>
+          <button class='navbar-toggle' data-target='.navbar-collapse' data-toggle='collapse' type='button'>
+            <span class='sr-only'>Toggle navigation</span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+          </button>
+          <a class='navbar-brand' href='.'>Haml User Tags</a>
+        </div>
+        <div class='collapse navbar-collapse'>
+          <ul class='nav navbar-nav'>
+            <li>
+              <a href='.'>About</a>
+            </li>
+            <li>
+              <a href='download.html'>Download</a>
+            </li>
+            <li class='active'>
+              <a href='tutorial.html'>Tutorial</a>
+            </li>
+            <li>
+              <a href='examples.html'>Examples</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main class='container'>
+      <div class='col-md-9'>
+        <div class='article-section-marker' id='tutorial'></div>
+        <h1>Tutorial</h1>
+        <p>
+          Fundamentally, Haml User Tags enables three things:
+        </p>
+        <ol>
+          <li>Calling Ruby helper functions using Haml syntax</li>
+          <li>Creating new helper functions that return Haml blocks</li>
+          <li>Including tags from one template file in another template file</li>
+        </ol>
+        <p>
+          This tutorial will take a close look at what these things mean, and then talk about they can be used effectively.
+        </p>
+        <div class='article-section-marker' id='syntax'></div>
+        <h2>Call Ruby helper functions using Haml syntax</h2>
+        <p>
+          Haml User Tags adds a special syntax to the Haml compiler that insructs Haml to run a helper method instead of outputting a tag. Imagine a Ruby helper method like this:
+        </p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="k">def</span> <span class="nf">MyHelper</span><span class="p">(</span><span class="n">attributes</span> <span class="o">=</span> <span class="p">{})</span>&#x000A;  <span class="n">content</span> <span class="o">=</span> <span class="n">capture_haml</span> <span class="p">{</span><span class="k">yield</span><span class="p">}</span> <span class="k">if</span> <span class="nb">block_given?</span>&#x000A;  <span class="k">return</span> <span class="s2">&quot;&lt;samp&gt;MyHelper called with </span><span class="si">#{</span><span class="n">attributes</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2"> and </span><span class="si">#{</span><span class="n">content</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&lt;/samp&gt;&lt;br /&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>&#x000A;<span class="k">end</span>&#x000A;</pre></div>
+          </div>
+        <p>
+          The first thing to notice is that this method is named differently than most Ruby methods. Haml User Tags are required to begin with a capital letter and be CamelCased. Like a typical Ruby helper function, it receives a hash of options and accepts a block of content.
+        </p>
+        <p>Now this helper method can be called from Haml:</p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="nt">%MyHelper</span>&#x000A;</pre></div>
+            <div class='live-result'>
+              <samp>MyHelper called with {} and nil</samp><br />
+            </div>
+          </div>
+        <p>The attributes work as expected, so user tags can receive content and a hash of attributes:</p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="nt">%MyHelper</span><span class="p">{</span><span class="ss">foo</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">}</span> content&#x000A;</pre></div>
+            <div class='live-result'>
+              <samp>MyHelper called with {"foo"=>"bar"} and "content"</samp><br />
+            </div>
+          </div>
+        <div class='alert alert-warning' role='alert'>
+            <strong>Caveat:</strong>
+              Notice that the attribute was passed as <code>:foo</code>, but was translated to a string <code>"foo"</code> when the helper function ran. Haml User Tags will use <a href="http://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html">HashWithIndifferentAccess</a> when running under Rails, so this is not generally be an issue.
+          </div>
+        <p>In addition to specifying attributes as a hash, Haml also knows how to translate IDs and class names:</p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="nt">%MyHelper</span><span class="nc">.cls1</span> with class name&#x000A;<span class="nt">%MyHelper</span><span class="nf">#id</span> with ID&#x000A;<span class="nt">%MyHelper</span><span class="nc">.cls1</span><span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;cls2&quot;</span><span class="p">}</span> merging multiple classes&#x000A;</pre></div>
+            <div class='live-result'>
+              <samp>MyHelper called with {"class"=>"cls1"} and "with class name"</samp><br />
+                <samp>MyHelper called with {"id"=>"id"} and "with ID"</samp><br />
+                <samp>MyHelper called with {"class"=>"cls1 cls2"} and "merging multiple classes"</samp><br />
+            </div>
+          </div>
+        <div class='article-section-marker' id='defining-helpers'></div>
+        <h2>Create new helper functions that return Haml blocks</h2>
+        <p>
+          Calling helper methods from Haml is useful, but only half of what's needed to create <em>composable tags</em>. In order to create Haml tags that are composed of other Haml tags, Haml templates must be able to create these helper methods directly. To enable this, Haml User Tags provides a helper method, <code>define_tag</code>. It works like this:
+        </p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="p">-</span> <span class="n">define_tag</span> <span class="ss">:MyHamlHelper</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="p">,</span> <span class="n">content</span><span class="o">|</span>&#x000A;  <span class="nt">%samp</span> MyHelper called with <span class="si">#{</span><span class="n">attributes</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span> and <span class="si">#{</span><span class="n">content</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span>&#x000A;  <span class="nt">%br</span>&#x000A;&#x000A;<span class="nt">%MyHamlHelper</span><span class="nc">.cls</span> helper defined in Haml directly&#x000A;</pre></div>
+            <div class='live-result'>
+              <samp>MyHelper called with {"class"=>"cls"} and "helper defined in Haml directly"</samp>
+                <br>
+            </div>
+          </div>
+        <p>
+          All <code>define_tag</code> does is create a new helper method on the template object, so it works basically the same as <code>MyHelper</code>, above. User tags can do everything that normal Haml templates can do, including accessing instance variables and calling other user tags.
+        </p>
+        <div class='article-section-marker' id='including-helpers'></div>
+        <h2>Include tags from one template file in another template file</h2>
+        <p>
+          Haml User Tags provides a method called <code>include_tags</code> that takes a path to a template file, and will copy the tags defined in that template into the calling one. For example, if there were a file called <code>_bootstrap.html.haml</code> and it defined a tag called <code>Alert</code>, then it could be accessed like this:
+        </p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="p">-</span> <span class="n">include_tags</span> <span class="s2">&quot;_bootstrap.html.haml&quot;</span>&#x000A;&#x000A;<span class="nt">%Alert</span><span class="nc">.alert-info</span> The Alert tag was imported!&#x000A;</pre></div>
+            <div class='live-result'>
+              <div class='alert alert-info' role='alert'>
+                  <button class='close' data-dismiss='alert' type='button'>
+                    <span aria-hidden='true'>&times;</span>
+                    <span class='sr-only'>Close</span>
+                  </button>
+                  The Alert tag was imported!
+                </div>
+            </div>
+          </div>
+        <p>
+          Because the user tags are helper methods that are copied into the current template, they share the same <code>self</code> object and instance variables. This is the same behavior as Rails partials.
+        </p>
+        <p>
+          The <code>include_tags</code> method can also be called from Ruby code, which allows helper modules that are shared across a project to be created. Consider the following helper module:
+        </p>
+        <div class="highlight"><pre><span class="k">module</span> <span class="nn">BootstrapHelper</span>&#x000A;  <span class="kp">extend</span> <span class="no">HamlUserTags</span><span class="o">::</span><span class="no">Helpers</span>&#x000A;  <span class="n">include_tags</span> <span class="s2">&quot;_bootstrap.html.haml&quot;</span>&#x000A;<span class="k">end</span>&#x000A;</pre></div>
+        <p>
+          Now in all templates that extend this module, all of the custom tags defined in the imported template are available immedately. This also has a performance benefit, since the included file is only compiled once and the results are shared amongst all templates that include the module.
+        </p>
+        <div class='article-section-marker' id='rails'></div>
+        <h2>Rails-specific features</h2>
+        <p>
+          In Rails, <code>include_tags</code> does not take a filename. Instead, it searches for a partial in <code>views/helpers/</code>. For example, given the following helper module:
+        </p>
+        <div class="highlight"><pre><span class="k">module</span> <span class="nn">ApplicationHelper</span>&#x000A;  <span class="kp">extend</span> <span class="no">HamlUserTags</span><span class="o">::</span><span class="no">Helpers</span>&#x000A;  <span class="n">include_tags</span> <span class="s2">&quot;application/bootstrap&quot;</span>&#x000A;<span class="k">end</span>&#x000A;</pre></div>
+        <p>
+          Rails will expect to find the file in <code>app/views/helpers/application/_bootstrap.haml</code>.
+        </p>
+        <div class='article-section-marker' id='composition'></div>
+        <h2>Composition</h2>
+        <p>
+          With these basic building blocks, it is now possible to create <strong>composable tags</strong>. This section of the tutorial describes techniques and conventions that will be useful while building a library of user tags in an app.
+        </p>
+        <p>
+          To begin, here is a simple <code>LinkButton</code> tag that renders a Bootstrap-themed button to a given link.
+        </p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="p">-</span> <span class="n">define_tag</span> <span class="ss">:LinkButton</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="p">,</span> <span class="n">content</span><span class="o">|</span>&#x000A;  <span class="nt">%a</span><span class="nc">.btn.btn-default</span><span class="p">{</span><span class="ss">href</span><span class="p">:</span> <span class="n">attributes</span><span class="o">[</span><span class="s2">&quot;href&quot;</span><span class="o">]</span><span class="p">}=</span> <span class="n">content</span>&#x000A;<span class="nt">%LinkButton</span><span class="p">{</span><span class="ss">href</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span><span class="p">}</span> My Button&#x000A;<span class="nt">%LinkButton</span><span class="nc">.btn-primary</span><span class="p">{</span><span class="ss">href</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span><span class="p">}</span> Primary Button&#x000A;</pre></div>
+            <div class='live-result'>
+              <a class='btn btn-default' href='#'>My Button</a>
+                <a class='btn btn-default' href='#'>Primary Button</a>
+            </div>
+          </div>
+        <p>
+          This user tag has some obvious limitations: a class is given to the second button, but because the method did not explicitly pass the class attribute on, it was left out of the result. Fortunately, Haml allows passing entire hash objects to tags instead of specifying each key-value pair:
+        </p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="p">-</span> <span class="n">define_tag</span> <span class="ss">:LinkButton</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="p">,</span> <span class="n">content</span><span class="o">|</span>&#x000A;  <span class="nt">%a</span><span class="nc">.btn.btn-default</span><span class="p">{</span><span class="n">attributes</span><span class="p">}=</span> <span class="n">content</span>&#x000A;<span class="nt">%LinkButton</span><span class="p">{</span><span class="ss">href</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span><span class="p">}</span> My Button&#x000A;<span class="nt">%LinkButton</span><span class="nc">.btn-primary</span><span class="p">{</span><span class="ss">href</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span><span class="p">}</span> Primary Button&#x000A;<span class="nt">%LinkButton</span><span class="p">{</span><span class="ss">href</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Title text&quot;</span><span class="p">}</span> Another Button&#x000A;</pre></div>
+            <div class='live-result'>
+              <a class='btn btn-default' href='#'>My Button</a>
+                <a class='btn btn-default btn-primary' href='#'>Primary Button</a>
+                <a class='btn btn-default' href='#' title='Title text'>Another Button</a>
+            </div>
+          </div>
+        <p>
+          This technique is known as <strong>attribute forwarding</strong>. Because all attributes are forwarded on to the underlying <code>&lt;a&gt;</code> element, the class even worked with the <code>title</code> attribute. In this way, the <code>LinkButton</code> can support all of the attributes of the tag it is composed of (<code>&lt;a&gt;</code>).
+        </p>
+        <p>Consider a new type of LinkButton that opens a popover:</p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="p">-</span> <span class="n">define_tag</span> <span class="ss">:PopoverButton</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="p">,</span> <span class="n">content</span><span class="o">|</span>&#x000A;  <span class="p">-</span> <span class="n">title</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">delete</span> <span class="s2">&quot;title&quot;</span>&#x000A;  <span class="p">-</span> <span class="n">label</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">delete</span> <span class="s2">&quot;label&quot;</span>&#x000A;  <span class="nt">%LinkButton</span><span class="nc">.popover-button</span><span class="p">{</span><span class="n">attributes</span><span class="p">,</span> <span class="ss">:data</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">toggle</span><span class="p">:</span> <span class="s2">&quot;popover&quot;</span><span class="p">,</span> <span class="ss">title</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="ss">content</span><span class="p">:</span> <span class="n">content</span><span class="p">}</span>}&#x000A;    <span class="p">=</span> <span class="n">label</span> <span class="o">||</span> <span class="s2">&quot;Show Popover&quot;</span>&#x000A;&#x000A;<span class="nt">%PopoverButton</span><span class="nc">.btn-primary</span><span class="p">{</span><span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Popover content&quot;</span><span class="p">}</span>&#x000A;  This content appears inside of the popover.&#x000A;</pre></div>
+            <div class='live-result'>
+              <a class='btn btn-default btn-primary popover-button' data-content='This content appears inside of the popover.' data-title='Popover content' data-toggle='popover'>Show Popover</a>
+            </div>
+          </div>
+        <p>
+          Now <code>PopoverButton</code> supports all of the features of <code>LinkButton</code> (and thus <code>&lt;a&gt;</code>). Notice the pattern of calling <code>attributes.delete</code>, which removes the key from the hash and returns the value if it was set. This is necessary because otherwise the <code>LinkButton</code> would end up with <code>title</code> and <code>label</code> attributes, which is not intended. In this way known attributes are handled and handling of unknown attributes is deferred to the constituent tags.
+        </p>
+        <p>Consider this new <code>LinkButton</code> tag that supports a new feature: adding an icon to the button.</p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="p">-</span> <span class="n">define_tag</span> <span class="ss">:LinkButton</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="p">,</span> <span class="n">content</span><span class="o">|</span>&#x000A;  <span class="p">-</span> <span class="n">icon</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">delete</span> <span class="s2">&quot;icon&quot;</span>&#x000A;  <span class="nt">%a</span><span class="nc">.btn.btn-default</span><span class="p">{</span><span class="n">attributes</span><span class="p">}</span>&#x000A;    <span class="p">-</span> <span class="k">if</span> <span class="n">icon</span>&#x000A;      <span class="nt">%span</span><span class="nc">.glyphicon</span><span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;glyphicon-</span><span class="si">#{</span><span class="n">icon</span><span class="si">}</span>&quot;}&#x000A;    <span class="p">=</span> <span class="n">content</span>&#x000A;<span class="nt">%LinkButton</span><span class="p">{</span><span class="ss">href</span><span class="p">:</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">icon</span><span class="p">:</span> <span class="s2">&quot;star&quot;</span><span class="p">}</span> My Button&#x000A;<span class="nt">%PopoverButton</span><span class="p">{</span><span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;An Icon&quot;</span><span class="p">,</span> <span class="ss">icon</span><span class="p">:</span> <span class="s2">&quot;glass&quot;</span><span class="p">}</span>&#x000A;  This button has an icon, even though the code for&#x000A;  PopoverButton did not change.&#x000A;</pre></div>
+            <div class='live-result'>
+              <a class='btn btn-default' href='#'>
+                  <span class='glyphicon glyphicon-star'></span>
+                  My Button
+                </a>
+                <a class='btn btn-default popover-button' data-content='This button has an icon, even though the code for&#x000A;PopoverButton did not change.' data-title='An Icon' data-toggle='popover'>
+                  <span class='glyphicon glyphicon-glass'></span>
+                  Show Popover
+                </a>
+            </div>
+          </div>
+        <p>
+          Even though PopoverButton has no knowledge of the <code>icon</code> attribute, it already supports it.
+        </p>
+        <div class='article-section-marker' id='attribute-forwarding'></div>
+        <h2>Attribute forwarding</h2>
+        <p>
+          <strong>Attribute forwarding</strong> is a simple and powerful way to compose HTML tags. <strong>It allows user tags to inherit behavior without inheriting implementation.</strong>
+        </p>
+        <p>
+          This section will go over some of the subtleties of attribute forwarding. Most of this is the behavior described in <a href="http://haml.info/docs/yardoc/file.REFERENCE.html#attributes">the Haml reference</a>, but since it is such an integral part of building composable tags, it's worth reviewing the capabilities here. The Haml attribute syntax has the following traits:
+        </p>
+        <ul>
+          <li>The classes and IDs on the tag are combined to form a hash</li>
+          <li>A hash literal can be provided between brackets</li>
+          <li>More generally, any Ruby expression can be provided (the reference refers to "attribute methods")</li>
+          <li>More than one hash can be provided by comma-separating them</li>
+          <li>
+            These hashes are then intelligently combined to form the final attributes, left-to-right
+            <ul>
+              <li>Multiple <code>id</code> values will be concatenated with underscore (<code>_</code>)</li>
+              <li>Multiple <code>class</code> values will be concatenated with space (<code>&nbsp;</code>)</li>
+              <li>Multiple <code>data</code> values will be merged</li>
+              <li>All other attributes are merged</li>
+            </ul>
+          </li>
+        </ul>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="nt">%MyHelper</span><span class="nf">#id1</span><span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;id2&quot;</span><span class="p">}</span>&#x000A;<span class="nt">%MyHelper</span><span class="nc">.class1</span><span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="sx">%w{class2 class3}</span>}&#x000A;<span class="p">-</span> <span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;class1&quot;</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span><span class="ss">foo</span><span class="p">:</span> <span class="s2">&quot;bar&quot;</span><span class="p">}}</span>&#x000A;<span class="nt">%MyHelper</span><span class="p">{</span><span class="nb">hash</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;class2&quot;</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span><span class="ss">baz</span><span class="p">:</span> <span class="s2">&quot;qux&quot;</span><span class="p">}</span>}&#x000A;</pre></div>
+            <div class='live-result'>
+              <samp>MyHelper called with {"id"=>"id1_id2"} and nil</samp><br />
+                <samp>MyHelper called with {"class"=>"class1 class2 class3"} and nil</samp><br />
+                <samp>MyHelper called with {"class"=>"class1 class2", "data"=>{:foo=>"bar", :baz=>"qux"}} and nil</samp><br />
+            </div>
+          </div>
+        <div class='article-section-marker' id='lazy-evaluation'></div>
+        <h2>Lazy Evaluation</h2>
+        <p>
+          The content of user tags is not evaluated until the <code>content</code> parameter is accessed. This allows user tags to set up context for their child content. In the following example, this technique is used to set an instance variable describing the form that is currently being built. This technique enables the creation of simple wrappers around the Rails form builders.
+        </p>
+        <div class='live-example'>
+            <div class="highlight"><pre><span class="p">-</span> <span class="n">define_tag</span> <span class="ss">:Form</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="p">,</span> <span class="n">content</span><span class="o">|</span>&#x000A;  <span class="p">-</span> <span class="vi">@form_for</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">[</span><span class="s2">&quot;for&quot;</span><span class="o">]</span>&#x000A;  <span class="nt">%form</span><span class="p">=</span> <span class="n">content</span>&#x000A;<span class="p">-</span> <span class="n">define_tag</span> <span class="ss">:TextField</span> <span class="k">do</span> <span class="o">|</span><span class="n">attributes</span><span class="p">,</span> <span class="n">content</span><span class="o">|</span>&#x000A;  <span class="p">-</span> <span class="n">field</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">delete</span> <span class="s2">&quot;id&quot;</span>&#x000A;  <span class="nt">%input</span><span class="p">{</span><span class="n">attributes</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@form_for</span><span class="si">}</span><span class="o">[</span><span class="c1">#{field}]</span>&quot;, placeholder: field}&#x000A;<span class="nt">%Form</span><span class="p">{</span><span class="k">for</span><span class="p">:</span> <span class="ss">:some_model</span><span class="p">}</span>&#x000A;  <span class="nt">%TextField</span><span class="nf">#first_name</span>&#x000A;  <span class="nt">%TextField</span><span class="nf">#last_name</span>&#x000A;</pre></div>
+            <div class='live-result'>
+              <form>
+                  <input name='some_model[first_name]' placeholder='first_name'>
+                  <input name='some_model[last_name]' placeholder='last_name'>
+                </form>
+            </div>
+          </div>
+      </div>
+      <div class='col-md-3'>
+        <div class='hidden-print hidden-xs' data-spy='affix' id='articleContents' role='tablist'>
+          <ul class='nav'>
+            <li>
+              <a href='#tutorial'>Tutorial</a>
+            </li>
+            <li>
+              <a href='#syntax'>Syntax enhancements</a>
+            </li>
+            <li>
+              <a href='#defining-helpers'>Defining helpers</a>
+            </li>
+            <li>
+              <a href='#including-helpers'>Including helpers</a>
+            </li>
+            <li>
+              <a href='#rails'>Rails-specific</a>
+            </li>
+            <li>
+              <a href='#composition'>Composition</a>
+            </li>
+            <li>
+              <a href='#attribute-forwarding'>Attribute forwarding</a>
+            </li>
+            <li>
+              <a href='#lazy-evaluation'>Lazy Evaluation</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class='container'>
+        Built by Ryan.
+        Currently v0.9.0.
+      </div>
+    </footer>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+    <script>
+      $('.popover-button').popover();
+      // Disable demo links
+      $('a[href="#"]').click(function(e) { e.preventDefault(); });
+    </script>
+  </body>
+</html>
