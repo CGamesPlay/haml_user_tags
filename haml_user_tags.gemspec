@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = HamlUserTags::VERSION
   spec.authors       = ["Ryan Patterson"]
   spec.email         = ["cgamesplay@cgamesplay.com"]
-  spec.summary       = %q{Define reusable functions in Haml that can be called with native Haml syntax.}
-  spec.homepage      = ""
+  spec.summary       = "Helpers for Haml, in Haml."
+  spec.description   = "Define reusable functions in Haml that can be called with native Haml syntax."
+  spec.homepage      = "http://cgamesplay.github.io/haml_user_tags/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,16 +21,16 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "haml", "~> 4.0"
 
   spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", "~> 10.3"
 
   # Site dependencies
-  spec.add_development_dependency "stasis"
-  spec.add_development_dependency "therubyracer"
-  spec.add_development_dependency "less"
-  spec.add_development_dependency "pygments.rb"
+  spec.add_development_dependency "stasis", "~> 0.2"
+  spec.add_development_dependency "therubyracer", "~> 0.12"
+  spec.add_development_dependency "less", "~> 2.2"
+  spec.add_development_dependency "pygments.rb", "~> 0.5"
 
   # Test dependencies
-  spec.add_development_dependency "cucumber"
-  spec.add_development_dependency "rspec-expectations"
-  spec.add_development_dependency "fakefs"
+  spec.add_development_dependency "cucumber", "~> 1.3"
+  spec.add_development_dependency "rspec-expectations", "~> 3.0"
+  spec.add_development_dependency "fakefs", "~> 0.5"
 end

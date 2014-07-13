@@ -34,7 +34,7 @@
       %MyHelper{foo: "bar"} content
   %Alert.alert-warning{closable: false}
     %strong Caveat:
-    Notice that the attribute was passed as <code>:foo</code>, but was translated to a string <code>"foo"</code> when the helper function ran. Haml User Tags will use <a href="http://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html">HashWithIndifferentAccess</a> when running under Rails, so this is not generally be an issue.
+    Notice that the attribute was passed as <code>:foo</code>, but was translated to a string <code>"foo"</code> when the helper function ran. Haml User Tags will use <a href="http://api.rubyonrails.org/classes/ActiveSupport/HashWithIndifferentAccess.html">HashWithIndifferentAccess</a> when running under Rails, so this is not generally an issue.
   %p In addition to specifying attributes as a hash, Haml also knows how to translate IDs and class names:
   %LiveExample.haml{context: context}
     :preserve

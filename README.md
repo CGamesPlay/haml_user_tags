@@ -24,18 +24,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The [Tutorial](http://cgamesplay.github.io/haml_user_tags/tutorial.html) will guide you through how to create an use user tags. Briefly:
 
-## TODO
+```haml
+- define_tag :MyHamlHelper do |attributes, content|
+  %samp MyHelper called with #{attributes.inspect} and #{content.inspect}
+  %br
 
-- Verify it works on Ruby 1.9.7 / Rails 3.2.9
-- Find best use cases inside SI code and bring in
-- Explain the lazy evaluation of content
-- Document how to migrate from partials
-- Create a wrapper around render :partial to set it as a custom tag.
-
-It should ensure that tags in the partial don't get included. Potentially use
-Haml::to_method or whatever to do the defining.
+%MyHamlHelper.cls helper defined in Haml directly
+```
 
 ## Motivation
 
