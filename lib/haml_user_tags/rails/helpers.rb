@@ -7,7 +7,7 @@ module HamlUserTags
       view_paths = ActionController::Base._view_paths
       lookup_context = ActionView::LookupContext.new(view_paths, {}, [])
       template = lookup_context.find_template(path, [], true)
-      HamlUserTags::Engine.new(template.source).extend_object self
+      HamlUserTags::Engine.new(template.source, :filename => template.identifier).extend_object self
       nil
     end
 

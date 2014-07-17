@@ -36,7 +36,7 @@ module HamlUserTags
 
     def include_tags path
       source = File.read path
-      HamlUserTags::Engine.new(source).extend_object self
+      HamlUserTags::Engine.new(source, :filename => path).extend_object self
       nil
     end
   end

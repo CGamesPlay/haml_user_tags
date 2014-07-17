@@ -25,7 +25,7 @@ end
 
 When(/^I render the template "(.*?)"$/) do |filename|
   template = "- extend CucumberHelper\n#{File.read(filename)}"
-  @output = HamlUserTags::Engine.new(template).to_html
+  @output = HamlUserTags::Engine.new(template, :filename => filename, :line => 0).to_html
 end
 
 When(/^I evaluate the ruby code:$/) do |string|
