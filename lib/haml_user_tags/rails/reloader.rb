@@ -14,7 +14,7 @@ module HamlUserTags
       # Rails 5.0 says:
       # DEPRECATION WARNING: to_prepare is deprecated and will be removed from Rails 5.1
       # (use ActiveSupport::Reloader.to_prepare instead)
-      if ActiveSupport.version.release >= Gem::Version.new('5')
+      if ActiveSupport::VERSION::MAJOR >= 5
         ActiveSupport::Reloader
       else
         ActionDispatch::Reloader
