@@ -1,5 +1,12 @@
 module HamlUserTags
   module Helpers
+    module AttributesWithIndifference
+      def attributes_hash *args
+        ActiveSupport::HashWithIndifferentAccess.new super(*args)
+      end
+    end
+    prepend AttributesWithIndifference
+
     alias_method :include_tags_without_rails, :include_tags
     # Override the base include_tags to take advantage of Rails' template
     # location features
@@ -9,13 +16,6 @@ module HamlUserTags
       template = lookup_context.find_template(path, [], true)
       HamlUserTags::Engine.new(template.source, :filename => template.identifier).extend_object self
       nil
-    end
-
-    class << self
-      def attributes_hash_with_indifference *args
-        ActiveSupport::HashWithIndifferentAccess.new attributes_hash_without_indifference *args
-      end
-      alias_method_chain :attributes_hash, :indifference
     end
   end
 end
