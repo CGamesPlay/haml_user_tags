@@ -45,3 +45,11 @@ Guy Steele's [Growing a Language](http://www.cs.virginia.edu/~evans/cs655/readin
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Releasing
+
+1. `rake features`
+2. `rake release`
+3. Increment `VERSION` and `LATEST_STABLE_VERSION`
+3. `rake site:publish`
+4. `git push`
