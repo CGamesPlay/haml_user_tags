@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/haml_user_tags.svg)](https://badge.fury.io/rb/haml_user_tags)
+
 # HamlUserTags
 
 Define reusable functions in Haml that can be called with native Haml syntax.
