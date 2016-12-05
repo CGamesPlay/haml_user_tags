@@ -1,4 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/haml_user_tags.svg)](https://badge.fury.io/rb/haml_user_tags)
+[![CircleCI](https://circleci.com/gh/CGamesPlay/haml_user_tags/tree/master.svg?style=shield)](https://circleci.com/gh/CGamesPlay/haml_user_tags/tree/master)
 
 # HamlUserTags
 
