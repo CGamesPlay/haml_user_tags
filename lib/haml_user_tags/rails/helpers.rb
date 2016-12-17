@@ -5,7 +5,7 @@ module HamlUserTags
         ActiveSupport::HashWithIndifferentAccess.new super(*args)
       end
     end
-    prepend AttributesWithIndifference
+    singleton_class.prepend AttributesWithIndifference
 
     alias_method :include_tags_without_rails, :include_tags
     # Override the base include_tags to take advantage of Rails' template
