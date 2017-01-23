@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pygments.rb", "~> 0.5"
 
   # Test dependencies
-  spec.add_development_dependency "cucumber", "~> 1.3"
+  spec.add_development_dependency "cucumber", "~> 2.4"
   spec.add_development_dependency "rspec-expectations", "~> 3.0"
   spec.add_development_dependency "fakefs", "~> 0.5"
 end
