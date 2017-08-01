@@ -20,19 +20,19 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.0'
 
-  spec.add_runtime_dependency "haml", "~> 4.0"
+  spec.add_runtime_dependency "haml", ">= 4.0"
 
-  spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake", "~> 10.3"
+  spec.add_development_dependency "bundler", ">= 1.6"
+  spec.add_development_dependency "rake", ">= 10.3"
 
   # Site dependencies
-  spec.add_development_dependency "stasis", "~> 0.2"
-  spec.add_development_dependency "therubyracer", "~> 0.12"
-  spec.add_development_dependency "less", "~> 2.2"
-  spec.add_development_dependency "pygments.rb", "~> 0.5"
+  spec.add_development_dependency "stasis", ">= 0.2"
+  spec.add_development_dependency "therubyracer", ">= 0.12"
+  spec.add_development_dependency "less", ">= 2.2"
+  spec.add_development_dependency "pygments.rb", ">= 0.5"
 
   # Test dependencies
-  spec.add_development_dependency "cucumber", "~> 2.4"
-  spec.add_development_dependency "rspec-expectations", "~> 3.0"
-  spec.add_development_dependency "fakefs", "~> 0.5"
+  spec.add_development_dependency "cucumber", ">= 2.4"
+  spec.add_development_dependency "rspec-expectations", ">= 3.0"
+  spec.add_development_dependency "fakefs", ">= 0.5"
 end
