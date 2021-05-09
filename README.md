@@ -11,6 +11,13 @@ Define reusable functions in Haml that can be called with native Haml syntax.
 - Ability to define helper functions using Haml
 - Ability to include user tags from one Haml file in another
 
+## Project Status
+
+The latest version of the gem, `0.10.3`, includes all of the commit to the repository up to this point. The original author, [CGamesPlay](https://github.com/CGamesPlay), no longer uses this project in any production applications and so has no capacity to maintain it. If you are interested in adopting this project, or hiring me to do the modernization, please reach out.
+
+- The current implementation is incompatible with the latest Haml and Rails versions.
+- The CircleCI test pipeline is no longer functional due to changes by CircleCI.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -43,7 +50,7 @@ Guy Steele's [Growing a Language](http://www.cs.virginia.edu/~evans/cs655/readin
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/haml_user_tags/fork )
+1. Fork it (<https://github.com/CGamesPlay/haml_user_tags/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
