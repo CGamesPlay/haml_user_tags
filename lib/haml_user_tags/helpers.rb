@@ -7,9 +7,9 @@ module HamlUserTags
     def self.attributes_hash(class_id, obj_ref, *attributes_hashes)
       attributes = class_id
       attributes_hashes.each do |old|
-        Haml::Buffer.merge_attrs(attributes, Hash[old.map {|k, v| [k.to_s, v]}])
+        Haml::Buffer.merge_attributes!(attributes, Hash[old.map {|k, v| [k.to_s, v]}])
       end
-      Haml::Buffer.merge_attrs(attributes, Haml::Buffer.new.parse_object_ref(obj_ref)) if obj_ref
+      Haml::Buffer.merge_attributes!(attributes, Haml::Buffer.new.parse_object_ref(obj_ref)) if obj_ref
       attributes
     end
 
